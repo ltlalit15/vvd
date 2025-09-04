@@ -5,17 +5,8 @@ const errorHandler = (err, req, res, next) => {
   // Log error
   console.error('Error:', err);
 
-  // Sequelize Validation Error
-  if (err.name === 'SequelizeValidationError') {
-    const message = err.errors.map(error => error.message).join(', ');
-    error = {
-      statusCode: 400,
-      message: `Validation Error: ${message}`
-    };
-  }
-
-  // Sequelize Unique Constraint Error
-  if (err.name === 'SequelizeUniqueConstraintError') {
+  // MySQL Error Handling
+  if (err.code === 'ER_DUP_ENTRY') {
     const message = 'Duplicate field value entered';
     error = {
       statusCode: 400,
@@ -23,11 +14,18 @@ const errorHandler = (err, req, res, next) => {
     };
   }
 
-  // Sequelize Foreign Key Constraint Error
-  if (err.name === 'SequelizeForeignKeyConstraintError') {
+  if (err.code === 'ER_NO_REFERENCED_ROW_2') {
     const message = 'Invalid reference to related resource';
     error = {
       statusCode: 400,
+      message
+    };
+  }
+
+  if (err.code === 'ECONNREFUSED') {
+    const message = 'Database connection error';
+    error = {
+      statusCode: 500,
       message
     };
   }
@@ -50,11 +48,11 @@ const errorHandler = (err, req, res, next) => {
     };
   }
 
-  // Sequelize Database Connection Error
-  if (err.name === 'SequelizeConnectionError') {
-    const message = 'Database connection error';
+  // File Upload Errors
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    const message = 'File too large';
     error = {
-      statusCode: 500,
+      statusCode: 400,
       message
     };
   }

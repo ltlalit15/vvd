@@ -52,7 +52,8 @@ const projectSchemas = {
     endDate: Joi.date().greater(Joi.ref('startDate')).required(),
     status: Joi.string().valid('Planning', 'Active', 'On Hold', 'Completed', 'Cancelled').default('Planning'),
     priority: Joi.string().valid('Low', 'Medium', 'High', 'Critical').default('Medium'),
-    projectManager: Joi.number().integer().positive().required()
+    projectManagerId: Joi.number().integer().positive().required(),
+    location: Joi.string().max(255).allow('')
   }),
   
   update: Joi.object({
@@ -64,8 +65,9 @@ const projectSchemas = {
     endDate: Joi.date(),
     status: Joi.string().valid('Planning', 'Active', 'On Hold', 'Completed', 'Cancelled'),
     priority: Joi.string().valid('Low', 'Medium', 'High', 'Critical'),
-    projectManager: Joi.number().integer().positive(),
-    progress: Joi.number().min(0).max(100)
+    projectManagerId: Joi.number().integer().positive(),
+    progress: Joi.number().min(0).max(100),
+    location: Joi.string().max(255).allow('')
   })
 };
 
