@@ -1,0 +1,1267 @@
+{
+  "info": {
+    "name": "VVD Project Management API",
+    "description": "Complete API collection for VVD Project Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"Admin\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('auth_token', response.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"password123\",\n  \"newPassword\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/change-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "change-password"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John Updated\",\n  \"lastName\": \"Doe Updated\",\n  \"phone\": \"+1234567890\",\n  \"address\": \"123 Main St, City, Country\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": ["{{base_url}}"],
+              "path": ["users", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["projects"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Project by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects/1",
+              "host": ["{{base_url}}"],
+              "path": ["projects", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Swimming Pool Construction\",\n  \"description\": \"Construction of luxury swimming pool\",\n  \"client\": \"Al Mansouri Development\",\n  \"budget\": 125000,\n  \"startDate\": \"2024-01-20\",\n  \"endDate\": \"2024-05-15\",\n  \"projectManagerId\": 1,\n  \"location\": \"Dubai Hills Estate\",\n  \"priority\": \"High\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/projects",
+              "host": ["{{base_url}}"],
+              "path": ["projects"]
+            }
+          }
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Active\",\n  \"progress\": 25\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/projects/1",
+              "host": ["{{base_url}}"],
+              "path": ["projects", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects/1",
+              "host": ["{{base_url}}"],
+              "path": ["projects", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Project Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects/stats",
+              "host": ["{{base_url}}"],
+              "path": ["projects", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "RFQs",
+      "item": [
+        {
+          "name": "Get All RFQs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/rfqs",
+              "host": ["{{base_url}}"],
+              "path": ["rfqs"]
+            }
+          }
+        },
+        {
+          "name": "Get RFQ by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/rfqs/1",
+              "host": ["{{base_url}}"],
+              "path": ["rfqs", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create RFQ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client\": \"Al Mansouri Development\",\n  \"project\": \"Swimming Pool Construction - Villa Project\",\n  \"location\": \"Dubai Hills Estate\",\n  \"value\": \"$125,000\",\n  \"scopeSummary\": \"Design and construction of luxury swimming pools\",\n  \"contactPerson\": \"Omar Al-Mansouri\",\n  \"contactEmail\": \"omar@almansouridev.com\",\n  \"contactPhone\": \"+971 50 123 4567\",\n  \"deadline\": \"2024-02-15\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/rfqs",
+              "host": ["{{base_url}}"],
+              "path": ["rfqs"]
+            }
+          }
+        },
+        {
+          "name": "Update RFQ",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Won\",\n  \"notes\": \"Project won with competitive pricing\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/rfqs/1",
+              "host": ["{{base_url}}"],
+              "path": ["rfqs", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete RFQ",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/rfqs/1",
+              "host": ["{{base_url}}"],
+              "path": ["rfqs", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contracts",
+      "item": [
+        {
+          "name": "Get All Contracts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contracts",
+              "host": ["{{base_url}}"],
+              "path": ["contracts"]
+            }
+          }
+        },
+        {
+          "name": "Get Contract by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contracts/1",
+              "host": ["{{base_url}}"],
+              "path": ["contracts", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Contract",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": 1,\n  \"contractValue\": 125000,\n  \"signedDate\": \"2024-01-15\",\n  \"startDate\": \"2024-02-01\",\n  \"endDate\": \"2024-06-30\",\n  \"clientRepresentative\": \"Mohammed Al-Fayed - m.alfayed@emirates.com - +971 50 123 4567\",\n  \"paymentTerms\": \"30% advance, 40% on completion of phase 1, 30% on final delivery\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contracts",
+              "host": ["{{base_url}}"],
+              "path": ["contracts"]
+            }
+          }
+        },
+        {
+          "name": "Update Contract",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Completed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contracts/1",
+              "host": ["{{base_url}}"],
+              "path": ["contracts", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Contract",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contracts/1",
+              "host": ["{{base_url}}"],
+              "path": ["contracts", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "Get All Tasks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tasks",
+              "host": ["{{base_url}}"],
+              "path": ["tasks"]
+            }
+          }
+        },
+        {
+          "name": "Get Task by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Site Survey and Preparation\",\n  \"description\": \"Conduct site survey and prepare for construction\",\n  \"projectId\": 1,\n  \"assigneeId\": 1,\n  \"startDate\": \"2024-02-01\",\n  \"dueDate\": \"2024-02-05\",\n  \"priority\": \"High\",\n  \"estimatedHours\": 40\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks",
+              "host": ["{{base_url}}"],
+              "path": ["tasks"]
+            }
+          }
+        },
+        {
+          "name": "Update Task",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"In Progress\",\n  \"progress\": 50\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Resources",
+      "item": [
+        {
+          "name": "Get All Resources",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resources",
+              "host": ["{{base_url}}"],
+              "path": ["resources"]
+            }
+          }
+        },
+        {
+          "name": "Get Resource by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resources/1",
+              "host": ["{{base_url}}"],
+              "path": ["resources", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Resource",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ahmed Al-Rashid\",\n  \"role\": \"Site Engineer\",\n  \"subcontractor\": \"Construction Solutions LLC\",\n  \"rate\": \"$150/day\",\n  \"availability\": \"Full-time\",\n  \"contactInfo\": \"ahmed@constructionsolutions.com\",\n  \"skills\": \"Site supervision, Quality control, Safety management\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/resources",
+              "host": ["{{base_url}}"],
+              "path": ["resources"]
+            }
+          }
+        },
+        {
+          "name": "Update Resource",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rate\": \"$160/day\",\n  \"assignedTasks\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/resources/1",
+              "host": ["{{base_url}}"],
+              "path": ["resources", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Resource",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/resources/1",
+              "host": ["{{base_url}}"],
+              "path": ["resources", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Procurement",
+      "item": [
+        {
+          "name": "Get All Materials",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/procurement/materials",
+              "host": ["{{base_url}}"],
+              "path": ["procurement", "materials"]
+            }
+          }
+        },
+        {
+          "name": "Create Material",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Steel Beams\",\n  \"projectId\": 1,\n  \"supplier\": \"Al-Mansouri Suppliers\",\n  \"quantity\": 10,\n  \"unitCost\": 250,\n  \"plannedDate\": \"2024-03-15\",\n  \"notes\": \"High-quality structural steel beams\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/procurement/materials",
+              "host": ["{{base_url}}"],
+              "path": ["procurement", "materials"]
+            }
+          }
+        },
+        {
+          "name": "Update Material",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Delivered\",\n  \"actualDate\": \"2024-03-16\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/procurement/materials/1",
+              "host": ["{{base_url}}"],
+              "path": ["procurement", "materials", "1"]
+            }
+          }
+        },
+        {
+          "name": "Generate GRN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receivedQuantity\": 10,\n  \"receivedCondition\": \"Good\",\n  \"inspectedBy\": \"Ahmed Al-Rashid\",\n  \"storageLocation\": \"Warehouse A - Section 1\",\n  \"notes\": \"All items received in good condition\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/procurement/materials/1/grn",
+              "host": ["{{base_url}}"],
+              "path": ["procurement", "materials", "1", "grn"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Financials",
+      "item": [
+        {
+          "name": "Get Financial Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/financials/summary",
+              "host": ["{{base_url}}"],
+              "path": ["financials", "summary"]
+            }
+          }
+        },
+        {
+          "name": "Get All Invoices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/financials/invoices",
+              "host": ["{{base_url}}"],
+              "path": ["financials", "invoices"]
+            }
+          }
+        },
+        {
+          "name": "Create Invoice",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": 1,\n  \"invoiceNumber\": \"INV-2024-001\",\n  \"amount\": 45000,\n  \"dueDate\": \"2024-03-15\",\n  \"description\": \"Phase 1 completion payment\",\n  \"grnReference\": \"GRN-2024-001\",\n  \"items\": [\n    {\n      \"description\": \"Construction Materials\",\n      \"quantity\": 1,\n      \"rate\": 31500,\n      \"amount\": 31500\n    },\n    {\n      \"description\": \"Labor Charges\",\n      \"quantity\": 1,\n      \"rate\": 13500,\n      \"amount\": 13500\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/financials/invoices",
+              "host": ["{{base_url}}"],
+              "path": ["financials", "invoices"]
+            }
+          }
+        },
+        {
+          "name": "Record Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoiceId\": 1,\n  \"amount\": 45000,\n  \"paymentDate\": \"2024-03-10\",\n  \"paymentMethod\": \"Bank Transfer\",\n  \"reference\": \"TRX-78945612\",\n  \"notes\": \"Payment received via bank transfer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/financials/payments",
+              "host": ["{{base_url}}"],
+              "path": ["financials", "payments"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Quality & HSE",
+      "item": [
+        {
+          "name": "Get All Inspections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/quality/inspections",
+              "host": ["{{base_url}}"],
+              "path": ["quality", "inspections"]
+            }
+          }
+        },
+        {
+          "name": "Create Inspection",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"taskId\": 1,\n  \"inspectionDate\": \"2024-02-05\",\n  \"inspectorId\": 1,\n  \"snags\": \"Minor concrete surface irregularities\",\n  \"hseIssues\": \"Medium\",\n  \"notes\": \"Overall quality acceptable with minor corrections needed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/quality/inspections",
+              "host": ["{{base_url}}"],
+              "path": ["quality", "inspections"]
+            }
+          }
+        },
+        {
+          "name": "Update Inspection",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Closed\",\n  \"notes\": \"All issues resolved and verified\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/quality/inspections/1",
+              "host": ["{{base_url}}"],
+              "path": ["quality", "inspections", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Milestones",
+      "item": [
+        {
+          "name": "Get All Milestones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/milestones",
+              "host": ["{{base_url}}"],
+              "path": ["milestones"]
+            }
+          }
+        },
+        {
+          "name": "Create Milestone",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": 1,\n  \"name\": \"Site Preparation Complete\",\n  \"plannedDate\": \"2024-02-05\",\n  \"description\": \"Complete site survey and preparation phase\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/milestones",
+              "host": ["{{base_url}}"],
+              "path": ["milestones"]
+            }
+          }
+        },
+        {
+          "name": "Update Milestone",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Completed\",\n  \"actualDate\": \"2024-02-04\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/milestones/1",
+              "host": ["{{base_url}}"],
+              "path": ["milestones", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Milestone",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/milestones/1",
+              "host": ["{{base_url}}"],
+              "path": ["milestones", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Risks",
+      "item": [
+        {
+          "name": "Get All Risks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/risks",
+              "host": ["{{base_url}}"],
+              "path": ["risks"]
+            }
+          }
+        },
+        {
+          "name": "Create Risk",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": 1,\n  \"description\": \"Weather delays during construction\",\n  \"level\": \"Medium\",\n  \"impact\": \"Potential 1-2 week delay in project timeline\",\n  \"mitigationPlan\": \"Monitor weather forecasts and adjust schedule accordingly\",\n  \"owner\": \"Ahmed Al-Rashid\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/risks",
+              "host": ["{{base_url}}"],
+              "path": ["risks"]
+            }
+          }
+        },
+        {
+          "name": "Update Risk",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Mitigated\",\n  \"level\": \"Low\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/risks/1",
+              "host": ["{{base_url}}"],
+              "path": ["risks", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Risk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/risks/1",
+              "host": ["{{base_url}}"],
+              "path": ["risks", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Design Management",
+      "item": [
+        {
+          "name": "Get All Drawings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/designs/drawings",
+              "host": ["{{base_url}}"],
+              "path": ["designs", "drawings"]
+            }
+          }
+        },
+        {
+          "name": "Upload Drawing",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "drawing",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "projectId",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "stage",
+                  "value": "Concept",
+                  "type": "text"
+                },
+                {
+                  "key": "notes",
+                  "value": "Initial concept design for swimming pool",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/designs/drawings/upload",
+              "host": ["{{base_url}}"],
+              "path": ["designs", "drawings", "upload"]
+            }
+          }
+        },
+        {
+          "name": "Update Drawing Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Approved\",\n  \"notes\": \"Design approved by client\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/designs/drawings/1/status",
+              "host": ["{{base_url}}"],
+              "path": ["designs", "drawings", "1", "status"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Job Costs",
+      "item": [
+        {
+          "name": "Get All Job Costs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/job-costs",
+              "host": ["{{base_url}}"],
+              "path": ["job-costs"]
+            }
+          }
+        },
+        {
+          "name": "Create Job Cost",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": 1,\n  \"task\": \"Excavation\",\n  \"resource\": \"Ahmed Al-Rashid\",\n  \"estimatedLabor\": 8000,\n  \"estimatedMaterial\": 6000,\n  \"estimatedOverhead\": 1000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/job-costs",
+              "host": ["{{base_url}}"],
+              "path": ["job-costs"]
+            }
+          }
+        },
+        {
+          "name": "Update Job Cost",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actualLabor\": 8200,\n  \"actualMaterial\": 6000,\n  \"actualOverhead\": 1000,\n  \"status\": \"Completed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/job-costs/1",
+              "host": ["{{base_url}}"],
+              "path": ["job-costs", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Project Closeout",
+      "item": [
+        {
+          "name": "Get All Closeouts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/closeouts",
+              "host": ["{{base_url}}"],
+              "path": ["closeouts"]
+            }
+          }
+        },
+        {
+          "name": "Create Closeout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": 1,\n  \"finalInspectionDate\": \"2024-06-25\",\n  \"snagListResolved\": \"Yes\",\n  \"asBuiltDrawingsSubmitted\": \"Yes\",\n  \"handoverDate\": \"2024-06-30\",\n  \"warrantyPeriod\": 12,\n  \"notes\": \"Project completed successfully with all requirements met\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/closeouts",
+              "host": ["{{base_url}}"],
+              "path": ["closeouts"]
+            }
+          }
+        },
+        {
+          "name": "Update Closeout",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"closureStatus\": \"Completed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/closeouts/1",
+              "host": ["{{base_url}}"],
+              "path": ["closeouts", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Generate Project Summary Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reports/project-summary?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "project-summary"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generate Financial Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reports/financial?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "financial"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generate Task Progress Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reports/task-progress?projectId=1",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "task-progress"],
+              "query": [
+                {
+                  "key": "projectId",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generate Quality Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/reports/quality?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "quality"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
